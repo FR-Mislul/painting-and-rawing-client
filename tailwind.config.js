@@ -15,6 +15,11 @@ export default {
       animation: {
         bounce: 'bounce 3s infinite',
       },
+      fontFamily: {
+        josefin : '"Josefin Sans", sans-serif',
+        bree : '"Bree Serif", serif',
+        cabin : '"Cabin", sans-serif',
+      }
     },
   },
   plugins: [

@@ -9,7 +9,6 @@ body {
 }
 
 body {
-    background: #eee;
     font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
     font-size: 14px;
     color: #000;
@@ -38,6 +37,7 @@ body {
     width: 100%;
     height: 90vh;
     object-fit: cover;
+    border-radius: 10px;
 }
 
 .text-contain {
