@@ -11,6 +11,7 @@ import './Header.css';
 
 // import required modules
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
     return (
@@ -36,7 +37,7 @@ const Header = () => {
                             <h1 className="text-xl md:text-2xl lg:text-3xl font-bold">Drow Your painting</h1>
                             <p className='text-xs md:text-sm lg:text-xl'>Every color carries a story woven into the canvas. In this artwork, I’ve opened a new chapter of emotions, where each stroke brings my thoughts and dreams to life. In art, I find freedom, embarking on a journey on the wings of imagination.</p>
                         </div>
-                        <button className='btn btn-secondary '>Add Your painting</button>
+                        <Link to='/addYourPainting'> <button className='btn btn-secondary '>Add Your painting</button> </Link>
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>

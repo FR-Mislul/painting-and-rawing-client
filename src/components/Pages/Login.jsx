@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash, FaGithub, FaGoogle } from "react-icons/fa";
 import { AuthContext } from "../../provider/AuthProvider";
 import { Flip, toast, Zoom } from 'react-toastify';
@@ -11,6 +11,9 @@ const Login = () => {
     const { user, signInUser, googleLogin } = useContext(AuthContext)
     const [showPassword, setShowPassword] = useState();
 
+    const navigate = useNavigate();
+    const location = useLocation();
+
 
     const handelLogin = e => {
         e.preventDefault();
@@ -19,7 +22,7 @@ const Login = () => {
         const password = form.get('password');
 
         console.log(email, password)
-        if(user) {
+        if (user) {
             toast.error('User already logged in', {
                 position: "top-center",
                 autoClose: 5000,
@@ -30,13 +33,14 @@ const Login = () => {
                 progress: undefined,
                 theme: "colored",
                 transition: Flip,
-                });
-                return;
+            });
+            return;
         }
-        else{
+        else {
             signInUser(email, password)
                 .then(result => {
                     console.log(result.user)
+                    e.target.reset()
                     toast.success('Your account login successfully', {
                         position: "top-center",
                         autoClose: 5000,
@@ -47,8 +51,11 @@ const Login = () => {
                         progress: undefined,
                         theme: "colored",
                         transition: Flip,
-                        });
-                        return;
+                    });
+                    if (result.user) {
+                        navigate(location.state || '/')
+                    }
+                    return;
                 })
                 .catch(error => {
                     console.log(error)
@@ -68,7 +75,7 @@ const Login = () => {
     }
 
     const handleGoogleLogin = () => {
-        if(user) {
+        if (user) {
             toast.error('User already logged in', {
                 position: "top-center",
                 autoClose: 5000,
@@ -79,10 +86,10 @@ const Login = () => {
                 progress: undefined,
                 theme: "colored",
                 transition: Flip,
-                });
-                return;
+            });
+            return;
         }
-        else{
+        else {
             googleLogin()
                 .then(result => {
                     console.log(result.user)
@@ -96,8 +103,11 @@ const Login = () => {
                         progress: undefined,
                         theme: "colored",
                         transition: Flip,
-                        });
-                        return;
+                    });
+                    if (result.user) {
+                        navigate(location.state || '/')
+                    }
+                    return;
                 })
                 .catch(error => {
                     console.log(error)

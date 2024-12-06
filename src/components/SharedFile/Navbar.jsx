@@ -1,22 +1,24 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { AuthContext } from '../../../provider/AuthProvider';
+import { AuthContext } from '../../provider/AuthProvider';
 import { Flip, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Navbar = () => {
+    const [theme, setTheme] = useState(localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light');
+    const { user, logOut } = useContext(AuthContext)
 
     const navLink = <>
         <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='/f'>Painting Gallery</NavLink></li>
-        <li><NavLink to='/f'>My Painting</NavLink></li>
+        <li><NavLink to='/myPainting'>My Painting</NavLink></li>
+        { user &&
+            <li><NavLink to='/addYourPainting'>Add Painting</NavLink></li>
+        }
         <li><NavLink to='/f'>About Us</NavLink></li>
         <li><NavLink to='/f'>Contact Me</NavLink></li>
     </>
 
-
-    const [theme, setTheme] = useState(localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light');
-    const { user, logOut } = useContext(AuthContext)
 
     useEffect(() => {
         localStorage.setItem('theme', theme);
@@ -47,8 +49,8 @@ const Navbar = () => {
                     progress: undefined,
                     theme: "colored",
                     transition: Flip,
-                    });
-                    return;
+                });
+                return;
             })
             .catch(error => {
                 console.log(error)
@@ -76,8 +78,8 @@ const Navbar = () => {
                         </div>
                         <ul
                             tabIndex={0}
-                            className="menu menu-sm dropdown-content bg-base-100 text-black dark:text-white rounded-box z-10 mt-3 w-52 p-2 shadow">
-                            {navLink}
+                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow">
+                            {navLink}te
                         </ul>
                     </div>
                     <a className="btn btn-ghost text-xl md:text-2xl lg:text-3xl font-bold gap-0"><span className='text-primary'>Artistic</span><span className='text-secondary'>Avenue</span></a>
@@ -142,7 +144,7 @@ const Navbar = () => {
                                 </summary>
                                 <ul className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 shadow p-4 absolute top-10 right-0 space-y-2">
                                     {
-                                        user ? <div> 
+                                        user ? <div>
                                             <h3 className='font-medium '>username:</h3>
                                             <h2 className='font-bree text-lg font-bold'>{user?.displayName}</h2>
                                         </div> : <></>

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ToastContainer, Zoom, toast } from 'react-toastify';
@@ -10,6 +10,8 @@ const Registration = () => {
 
     const { user, createUser, updateUserProfile } = useContext(AuthContext)
     const [showPassword, setShowPassword] = useState()
+    const navigate = useNavigate();
+    const location = useLocation(); 
 
     const handelRegistration = e => {
         e.preventDefault();
@@ -99,6 +101,7 @@ const Registration = () => {
             .then(result => {
                 // console.log(result.user)
             })
+            e.target.reset()
             toast.success('Registration Successfully 😱', {
                 position: "top-center",
                 autoClose: 5000,
@@ -110,6 +113,9 @@ const Registration = () => {
                 theme: "colored",
                 transition: Zoom,
             });
+            if (result.user) {
+                navigate(location.state || '/')
+            }
         })
         .catch(error => {
             console.error(error)
