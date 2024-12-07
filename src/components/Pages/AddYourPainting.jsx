@@ -1,8 +1,47 @@
+import Swal from 'sweetalert2'
 
 const AddYourPainting = () => {
+
+    const handelAddPainting = e => {
+        e.preventDefault();
+
+        const form = e.target;
+        const name = form.name.value;
+        const artists = form.artists.value;
+        const date = form.date.value;
+        const cost = form.cost.value;
+        const rating = form.rating.value;
+        const customization = form.customization.value;
+        const photo = form.photo.value;
+        const description = form.description.value;
+
+        const newPainting = {name, artists, date, cost, rating, customization, photo, description}
+        console.log(newPainting)
+
+        fetch('http://localhost:5000/paintings', {
+            method: 'POST',
+            headers: {
+                'content-type' : 'application/json'
+            },
+            body: JSON.stringify(newPainting)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            if(data.insertedId){
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Your Painting Added Successfully',
+                    icon: 'success',
+                    confirmButtonText: 'Cool'
+                  })
+                  return;
+            }
+        })
+    }
     return (
         <div>
-            <form>
+            <form onSubmit={handelAddPainting}>
                 <div className='bg-[#F4F3F0] w-11/12 lg:w-10/12 m-auto px-4 py-2 md:px-10 md:py-7 lg:px-28 lg:py-16 rounded-lg mt-2'>
                     <h1 className='text-center mb-4 text-3xl font-bree font-bold'> Add <span className="text-orange-600">Y</span><span className="text-orange-500">o</span><span className="text-orange-400">u</span><span className="text-orange-300">r</span> Painting </h1>
                     <h1 className='text-center font-cabin lg:text-lg mb-6'> Unleash your creativity and take a bold step toward sharing your art with the world. Each stroke, each color, is a piece of your vision. Capture emotions, tell stories, and let your unique perspective inspire others. Transform your canvas into a world of wonder. </h1>
