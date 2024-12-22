@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Header from './Header/Header';
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import PaintingCard from './PaintingCard';
 import CommentCard from './CommentCard';
 import PaintingOne from './PaintingOne';
@@ -40,7 +40,9 @@ const Home = () => {
                 }
             </div>
             <div className="flex justify-center">
-                <button type="button" className="px-6 py-3 text-sm rounded-md hover:underline dark:bg-gray-50 dark:text-gray-600">Load more posts...</button>
+                <Link to='/paintingGallery'>
+                    <button type="button" className="px-6 py-3 text-sm rounded-md hover:underline dark:bg-gray-50 dark:text-gray-600">Load more posts...</button>
+                </Link>
             </div>
 
             <div>
