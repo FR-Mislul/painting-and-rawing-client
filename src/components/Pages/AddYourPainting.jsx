@@ -1,11 +1,16 @@
+import { useContext } from 'react';
 import Swal from 'sweetalert2'
+import { AuthContext } from '../../provider/AuthProvider';
 
 const AddYourPainting = () => {
+    const { user } = useContext(AuthContext)
 
     const handelAddPainting = e => {
         e.preventDefault();
-
         const form = e.target;
+        const email = user.email;
+        const userName = user.displayName;
+        const userPhoto = user.photoURL;
         const name = form.name.value;
         const artists = form.artists.value;
         const date = form.date.value;
@@ -15,8 +20,12 @@ const AddYourPainting = () => {
         const photo = form.photo.value;
         const description = form.description.value;
 
-        const newPainting = {name, artists, date, cost, rating, customization, photo, description}
-        console.log(newPainting)
+        const newPainting = {email, userName, userPhoto, name, artists, date, cost, rating, customization, photo, description}
+
+        if(description.length < 30){
+            alert('description must be 30 words')
+            return;
+        }
 
         fetch('http://localhost:5000/paintings', {
             method: 'POST',
@@ -52,7 +61,7 @@ const AddYourPainting = () => {
                                     <span className="label-text font-medium font-cabin text-lg">Painting Name</span>
                                 </label>
                                 <label className="input-group input-group-vertical">
-                                    <input type="text" name='name' placeholder="Your Painting Name" className="input input-bordered font-josefin w-full" />
+                                    <input type="text" name='name' placeholder="Your Painting Name" required className="input input-bordered font-josefin w-full" />
                                 </label>
                             </div>
 
@@ -61,7 +70,7 @@ const AddYourPainting = () => {
                                     <span className="label-text font-medium font-cabin text-lg">Artists Name</span>
                                 </label>
                                 <label className="input-group input-group-vertical">
-                                    <input type="text" name='artists' placeholder="Artists Name" className="input input-bordered font-josefin w-full" />
+                                    <input type="text" name='artists' placeholder="Artists Name" required className="input input-bordered font-josefin w-full" />
                                 </label>
                             </div>
 
@@ -70,7 +79,7 @@ const AddYourPainting = () => {
                                     <span className="label-text font-medium font-cabin text-lg"> Processing Date</span>
                                 </label>
                                 <label className="input-group input-group-vertical">
-                                    <input type="text" name='date' placeholder="DD/MM/YY" className="input input-bordered font-josefin w-full" />
+                                    <input type="text" name='date' placeholder="DD/MM/YY" required className="input input-bordered font-josefin w-full" />
                                 </label>
                             </div>
                         </div>
@@ -80,7 +89,7 @@ const AddYourPainting = () => {
                                     <span className="label-text font-medium font-cabin text-lg">Cost</span>
                                 </label>
                                 <label className="input-group input-group-vertical">
-                                    <input type="text" name='cost' placeholder="Cost of painting" className="input input-bordered font-josefin w-full" />
+                                    <input type="text" name='cost' placeholder="Cost of painting" required className="input input-bordered font-josefin w-full" />
                                 </label>
                             </div>
 
@@ -89,7 +98,7 @@ const AddYourPainting = () => {
                                     <span className="label-text font-medium font-cabin text-lg">Rating</span>
                                 </label>
                                 <label className="input-group input-group-vertical">
-                                    <input type="text" name='rating' placeholder="Rating this painting" className="input input-bordered font-josefin w-full" />
+                                    <input type="text" name='rating' placeholder="Rating this painting" required className="input input-bordered font-josefin w-full" />
                                 </label>
                             </div>
 
@@ -98,7 +107,7 @@ const AddYourPainting = () => {
                                     <span className="label-text font-medium font-cabin text-lg"> Customization Example</span>
                                 </label>
                                 <label className="input-group input-group-vertical">
-                                    <input type="text" name='customization' placeholder="Yes/No" className="input input-bordered font-josefin w-full" />
+                                    <input type="text" name='customization' placeholder="Yes/No" required className="input input-bordered font-josefin w-full" />
                                 </label>
                             </div>
                         </div>
@@ -109,7 +118,7 @@ const AddYourPainting = () => {
                             <span className="label-text font-medium font-cabin text-lg">Photo</span>
                         </label>
                         <label className="input-group input-group-vertical">
-                            <input type="text" name='photo' placeholder="Painting URL" className="input input-bordered font-josefin w-full" />
+                            <input type="text" name='photo' placeholder="Painting URL" required className="input input-bordered font-josefin w-full" />
                         </label>
                     </div>
                     <div className="form-control lg:mx-4">
@@ -117,7 +126,7 @@ const AddYourPainting = () => {
                             <span className="label-text font-medium font-cabin text-lg">Description</span>
                         </label>
                         <label className="input-group input-group-vertical">
-                            <input type="text" name='description' placeholder="Painting Description" className="input input-bordered font-josefin w-full" />
+                            <input type="text" name='description' placeholder="Painting Description" required className="input input-bordered font-josefin w-full" />
                         </label>
                     </div>
 

@@ -19,6 +19,7 @@ export default {
         josefin : '"Josefin Sans", sans-serif',
         bree : '"Bree Serif", serif',
         cabin : '"Cabin", sans-serif',
+        bricolage: '"Bricolage Grotesque", sans-serif',
       }
     },
   },

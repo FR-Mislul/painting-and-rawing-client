@@ -143,7 +143,7 @@ const Registration = () => {
                 <div className="space-y-4">
                     <div>
                         <label htmlFor="name" className="block mb-2 text-base font-cabin font-medium">Full Name</label>
-                        <input type="text" name="name" placeholder="Your full name" className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 font-josefin" />
+                        <input type="text" name="name" placeholder="Your full name" required className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 font-josefin" />
                     </div>
                     <div>
                         <label htmlFor="email" className="block mb-2 text-base font-cabin font-medium">Email address</label>

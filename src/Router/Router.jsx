@@ -7,6 +7,7 @@ import Registration from "../components/Pages/Registration";
 import MyPainting from "../components/Pages/MyPainting";
 import PrivetRout from "../provider/PrivetRout";
 import AddYourPainting from "../components/Pages/AddYourPainting";
+import PaintingGallery from "../components/Pages/PaintingGallery";
 
 
 const Router = createBrowserRouter([
@@ -17,7 +18,8 @@ const Router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Home></Home>
+        element: <Home></Home>,
+        loader: () => fetch('http://localhost:5000/paintings'),
       },
       {
         path: '/login',
@@ -30,6 +32,11 @@ const Router = createBrowserRouter([
       {
         path: '/addYourPainting',
         element: <PrivetRout><AddYourPainting></AddYourPainting></PrivetRout>
+      },
+      {
+        path: '/paintingGallery',
+        element: <PaintingGallery></PaintingGallery>,
+        loader: () => fetch('http://localhost:5000/paintings'),
       },
       {
         path: '/myPainting',
