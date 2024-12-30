@@ -3,7 +3,8 @@ import AllPainting from "./AllPainting";
 
 
 const PaintingGallery = () => {
-    const paintings = useLoaderData()
+    const allPaintings = useLoaderData()
+    const paintings = [...allPaintings].reverse()
 
     return (
         <div>

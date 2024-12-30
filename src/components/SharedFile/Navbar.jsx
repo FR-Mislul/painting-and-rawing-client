@@ -1,39 +1,24 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { AuthContext } from '../../provider/AuthProvider';
 import { Flip, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ThemeContext } from '../../provider/ThemeProvider';
 
 const Navbar = () => {
-    const [theme, setTheme] = useState(localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light');
+    const {theme, handelTheme} = useContext(ThemeContext)
     const { user, logOut } = useContext(AuthContext)
 
     const navLink = <>
-        <li><NavLink to='/'>Home</NavLink></li>
-        <li><NavLink to='/paintingGallery'>Painting Gallery</NavLink></li>
-        <li><NavLink to='/myPainting'>My Painting</NavLink></li>
+        <li><NavLink className={({isActive}) => isActive ? 'text-fuchsia-600 btn btn-sm border-2 border-blue-500' : ''} to='/'>Home</NavLink></li>
+        <li><NavLink className={({isActive}) => isActive ? 'text-fuchsia-600 btn btn-sm border-2 border-blue-500' : ''} to='/paintingGallery'>Painting Gallery</NavLink></li>
+        <li><NavLink className={({isActive}) => isActive ? 'text-fuchsia-600 btn btn-sm border-2 border-blue-500' : ''} to='/myPainting'>My Painting</NavLink></li>
         { user &&
-            <li><NavLink to='/addYourPainting'>Add Painting</NavLink></li>
+            <li><NavLink className={({isActive}) => isActive ? 'text-fuchsia-600 btn btn-sm border-2 border-blue-500' : ''} to='/addYourPainting'>Add Painting</NavLink></li>
         }
-        <li><NavLink to='/f'>About Us</NavLink></li>
-        <li><NavLink to='/f'>Contact Me</NavLink></li>
+        <li><NavLink className={({isActive}) => isActive ? 'text-fuchsia-600 btn btn-sm border-2 border-blue-500' : ''} to='/f'>About Us</NavLink></li>
+        <li><NavLink className={({isActive}) => isActive ? 'text-fuchsia-600 btn btn-sm border-2 border-blue-500' : ''} to='/f'>Contact Me</NavLink></li>
     </>
-
-
-    useEffect(() => {
-        localStorage.setItem('theme', theme);
-        const localTheme = localStorage.getItem('theme');
-        document.querySelector('html').setAttribute('data-theme', localTheme)
-    }, [theme])
-
-    const handelToggle = (e) => {
-        if (e.target.checked) {
-            setTheme('dark')
-        }
-        else {
-            setTheme('light')
-        }
-    }
 
     const handelLogOut = () => {
         logOut()
@@ -62,7 +47,7 @@ const Navbar = () => {
             <div className="navbar bg-base-100 mt-0 shadow-lg">
                 <div className="navbar-start">
                     <div className="dropdown">
-                        <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+                        <div tabIndex={0} role="button" className={`btn btn-ghost lg:hidden ${theme === "dark" ? "text-white" : "text-black"}`}>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-5 w-5"
@@ -78,14 +63,14 @@ const Navbar = () => {
                         </div>
                         <ul
                             tabIndex={0}
-                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow">
-                            {navLink}te
+                            className={`menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow ${theme === "dark" ? "text-gray-100" : "text-gray-800"}`}>
+                            {navLink}
                         </ul>
                     </div>
                     <a className="btn btn-ghost text-xl md:text-2xl lg:text-3xl font-bold gap-0"><span className='text-primary'>Artistic</span><span className='text-secondary'>Avenue</span></a>
                 </div>
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal font-semibold px-1">
+                    <ul className={`menu menu-horizontal font-semibold px-1 ${theme === "dark" ? "text-gray-100" : "text-gray-900"}`}>
                         {navLink}
                     </ul>
                 </div>
@@ -93,7 +78,7 @@ const Navbar = () => {
 
                     <label className="grid cursor-pointer place-items-center">
                         <input
-                            onChange={handelToggle}
+                            onChange={(e) => handelTheme(e.target.checked)}
                             type="checkbox"
                             checked={theme == 'light' ? false : true}
                             className="toggle theme-controller bg-base-content col-span-2 col-start-1 row-start-1" />

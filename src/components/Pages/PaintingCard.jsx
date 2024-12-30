@@ -31,7 +31,7 @@ const PaintingCard = ({ painting }) => {
         fetch('http://localhost:5000/comments', {
             method: 'POST',
             headers: {
-                'content-type' : 'application/json'
+                'content-type': 'application/json'
             },
             body: JSON.stringify(newComment)
         })
@@ -54,18 +54,21 @@ const PaintingCard = ({ painting }) => {
     return (
         <div className="rounded-md shadow-md sm:w-96 dark:bg-gray-50 dark:text-gray-800 m-auto">
             <div className="flex items-center justify-between p-3">
-                <div className="flex items-center space-x-2">
-                    <div className="object-cover object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-300">
-                        {
-                            painting.userPhoto == null ? <img className='rounded-full' src="https://i.ibb.co.com/kcJNYB0/images.png" alt="" /> : <img className="rounded-full" src={painting.userPhoto} alt="" />
-                        }
+                <div className="flex justify-between items-center">
+                    <div className="flex items-center space-x-2">
+                        <div className="object-cover object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-300">
+                            {
+                                painting.userPhoto == null ? <img className='rounded-full' src="https://i.ibb.co.com/kcJNYB0/images.png" alt="" /> : <img className="rounded-full" src={painting.userPhoto} alt="" />
+                            }
+                        </div>
+                        <div className="-space-y-1">
+                            <h2 className="text-base font-semibold leading-none font-bree">{painting.userName}</h2>
+                            <span className="inline-block text-xs leading-none dark:text-gray-600">email: {
+                                painting.email == null ? <span>Private email</span> : <span>{painting.email}</span>
+                            }</span>
+                        </div>
                     </div>
-                    <div className="-space-y-1">
-                        <h2 className="text-base font-semibold leading-none font-bree">{painting.userName}</h2>
-                        <span className="inline-block text-xs leading-none dark:text-gray-600">email: {
-                            painting.email == null ? <span>Private email</span> : <span>{painting.email}</span>
-                        }</span>
-                    </div>
+                    <p className="">{painting.time}</p>
                 </div>
             </div>
             <img src={painting.photo} alt="" className="object-cover object-center w-full h-72 dark:bg-gray-500" />
