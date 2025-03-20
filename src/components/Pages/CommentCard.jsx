@@ -1,9 +1,12 @@
+import { useContext } from "react";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import { FaShare } from "react-icons/fa6";
+import { ThemeContext } from "../../provider/ThemeProvider";
 
 const CommentCard = ({ comment }) => {
+    const {theme} = useContext(ThemeContext)
     return (
-        <div className="w-full lg:p-3 md:p-2 p-1 rounded-md bg-gray-100">
+        <div className={`w-full lg:p-3 md:p-2 p-1 rounded-md ${theme === 'dark' ? 'bg-gray-800 text-gray-200' : 'bg-gray-100 text-gray-700'}`}>
             <div>
                 <div className="flex items-center space-x-2">
                     <div className="object-cover object-center w-6 h-6 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-300">

@@ -12,7 +12,7 @@ const Navbar = () => {
     const navLink = <>
         <li><NavLink className={({isActive}) => isActive ? 'text-fuchsia-600 btn btn-sm border-2 border-blue-500' : ''} to='/'>Home</NavLink></li>
         <li><NavLink className={({isActive}) => isActive ? 'text-fuchsia-600 btn btn-sm border-2 border-blue-500' : ''} to='/paintingGallery'>Painting Gallery</NavLink></li>
-        <li><NavLink className={({isActive}) => isActive ? 'text-fuchsia-600 btn btn-sm border-2 border-blue-500' : ''} to='/myPainting'>My Painting</NavLink></li>
+        <li><NavLink className={({isActive}) => isActive ? 'text-fuchsia-600 btn btn-sm border-2 border-blue-500' : ''} to='/myPaintingAndComment'>My Painting & Comment</NavLink></li>
         { user &&
             <li><NavLink className={({isActive}) => isActive ? 'text-fuchsia-600 btn btn-sm border-2 border-blue-500' : ''} to='/addYourPainting'>Add Painting</NavLink></li>
         }
@@ -67,7 +67,7 @@ const Navbar = () => {
                             {navLink}
                         </ul>
                     </div>
-                    <a className="btn btn-ghost text-xl md:text-2xl lg:text-3xl font-bold gap-0"><span className='text-primary'>Artistic</span><span className='text-secondary'>Avenue</span></a>
+                    <a className="btn btn-ghost text-xl md:text-2xl lg:text-3xl font-bold gap-0  bg-gradient-to-r from-primary via-secondary to-green-400 text-transparent bg-clip-text bg-300% animate-gradient"><span className=''>Artistic</span><span className=''>Avenue</span></a>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className={`menu menu-horizontal font-semibold px-1 ${theme === "dark" ? "text-gray-100" : "text-gray-900"}`}>

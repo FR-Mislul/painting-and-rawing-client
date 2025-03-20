@@ -1,9 +1,12 @@
+import { useContext } from "react";
 import { FaFacebook, FaGithub, FaInstagram } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { ThemeContext } from "../../provider/ThemeProvider";
 
 const Footer = () => {
+    const {theme} = useContext(ThemeContext)
     return (
-        <footer className="py-6 dark:bg-gray-100 dark:text-gray-900 mt-2">
+        <footer className={`py-6 ${theme === 'dark' ? 'bg-gray-800 text-gray-200' : 'bg-gray-100 text-gray-700'} mt-2`}>
             <div className="container px-6 mx-auto space-y-6 divide-y dark:divide-gray-600 md:space-y-12 divide-opacity-50">
                 <div className="grid grid-cols-12">
                     <div className="pb-6 col-span-full md:pb-0 md:col-span-6">

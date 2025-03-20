@@ -1,14 +1,26 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FaHeart, FaComment, FaStar } from "react-icons/fa6";
 import { AuthContext } from "../../provider/AuthProvider";
 import Swal from "sweetalert2";
+import { ThemeContext } from "../../provider/ThemeProvider";
 
 const PaintingCard = ({ painting }) => {
     const { user } = useContext(AuthContext)
+    const {theme} = useContext(ThemeContext)
 
     const [isLike, setIsLike] = useState(false)
+
+    useEffect(() => {
+        const savedLike = localStorage.getItem(`like-${painting._id}`);
+        if (savedLike) {
+          setIsLike(JSON.parse(savedLike)); // Convert string back to boolean
+        }
+      }, [painting._id]);
+
     const handelLike = () => {
-        setIsLike(!isLike)
+        const newLike = !isLike
+        setIsLike(newLike)
+        localStorage.setItem(`like-${painting._id}`, JSON.stringify(newLike));
     }
 
     const displayDescription = painting.description.split(" ").slice(0, 30);
@@ -24,8 +36,9 @@ const PaintingCard = ({ painting }) => {
         const email = user.email;
         const userName = user.displayName;
         const userPhoto = user.photoURL;
+        const paintingName = painting.name;
         const comment = form.comment.value;
-        const newComment = { email, userName, userPhoto, comment };
+        const newComment = { email, userName, userPhoto, paintingName, comment };
         console.log(newComment)
 
         fetch('http://localhost:5000/comments', {
@@ -52,7 +65,7 @@ const PaintingCard = ({ painting }) => {
 
 
     return (
-        <div className="rounded-md shadow-md sm:w-96 dark:bg-gray-50 dark:text-gray-800 m-auto">
+        <div className={`rounded-md shadow-md sm:w-96 ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white"} m-auto`}>
             <div className="flex items-center justify-between p-3">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center space-x-2">
@@ -101,7 +114,7 @@ const PaintingCard = ({ painting }) => {
                     </p>
                     <button className="btn hover:btm-nav-md hover:btn-link">See details</button>
                     <form onSubmit={handleComment}>
-                        <input type="text" name="comment" ref={commentRef} placeholder="Add a comment..." className="w-full py-0.5 dark:bg- border-none rounded text-sm pl-0 dark:text-gray-800" />
+                        <input type="text" name="comment" ref={commentRef} placeholder="Add a comment..." className={`w-full py-0.5 dark:bg- border-none rounded text-sm pl-0 ${theme === "dark" ? 'text-gray-200' : 'text-gray-800'}`} />
                     </form>
                 </div>
             </div>

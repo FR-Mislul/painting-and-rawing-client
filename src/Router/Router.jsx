@@ -8,6 +8,8 @@ import MyPainting from "../components/Pages/MyPainting";
 import PrivetRout from "../provider/PrivetRout";
 import AddYourPainting from "../components/Pages/AddYourPainting";
 import PaintingGallery from "../components/Pages/PaintingGallery";
+import MyPaintingAndComment from "../components/Pages/MyPaintingAndComment";
+import MyComments from "../components/Pages/MyComments";
 
 
 const Router = createBrowserRouter([
@@ -39,8 +41,20 @@ const Router = createBrowserRouter([
         loader: () => fetch('http://localhost:5000/paintings'),
       },
       {
-        path: '/myPainting',
-        element: <PrivetRout><MyPainting></MyPainting></PrivetRout>
+        path: '/myPaintingAndComment',
+        element: <PrivetRout><MyPaintingAndComment></MyPaintingAndComment></PrivetRout>,
+        children: [
+          {
+            index: true,
+            element: <MyPainting></MyPainting>,
+            loader : () => fetch('http://localhost:5000/paintings')
+          },
+          {
+            path: 'comment',
+            element: <MyComments></MyComments>,
+            loader: () => fetch('http://localhost:5000/comments')
+          }
+        ]
       }
     ]
   },

@@ -1,15 +1,27 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FaHeart, FaComment, FaStar } from "react-icons/fa6";
 import { AuthContext } from "../../provider/AuthProvider";
 import Swal from "sweetalert2";
+import { ThemeContext } from "../../provider/ThemeProvider";
 
 
 const AllPainting = ({ painting }) => {
     const { user } = useContext(AuthContext)
+    const { theme } = useContext(ThemeContext)
 
     const [isLike, setIsLike] = useState(false)
+
+    useEffect(() => {
+        const savedLike = localStorage.getItem(`like-${painting._id}`);
+        if (savedLike) {
+            setIsLike(JSON.parse(savedLike)); // Convert string back to boolean
+        }
+    }, [painting._id]);
+
     const handelLike = () => {
-        setIsLike(!isLike)
+        const newLike = !isLike
+        setIsLike(newLike)
+        localStorage.setItem(`like-${painting._id}`, JSON.stringify(newLike));
     }
 
     const displayDescription = painting.description.split(" ").slice(0, 30);
@@ -25,8 +37,9 @@ const AllPainting = ({ painting }) => {
         const email = user.email;
         const userName = user.displayName;
         const userPhoto = user.photoURL;
+        const paintingName = painting.name;
         const comment = form.comment.value;
-        const newComment = { email, userName, userPhoto, comment };
+        const newComment = { email, userName, userPhoto, paintingName, comment };
         console.log(newComment)
 
         fetch('http://localhost:5000/comments', {
@@ -45,6 +58,7 @@ const AllPainting = ({ painting }) => {
                         text: 'Your Comment Successfully',
                         icon: 'success',
                         confirmButtonText: 'Okay'
+                        
                     })
                     return;
                 }
@@ -53,7 +67,7 @@ const AllPainting = ({ painting }) => {
 
     return (
         <div>
-            <div className="rounded-md shadow-md sm:w-96 dark:bg-gray-50 dark:text-gray-800 m-auto">
+            <div className={`rounded-md shadow-md sm:w-96 ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white"} m-auto`}>
                 <div className="flex items-center justify-between p-3">
                     <div className="flex items-center space-x-2">
                         <div className="object-cover object-center w-8 h-8 rounded-full shadow-sm dark:bg-gray-500 dark:border-gray-300">
@@ -61,9 +75,9 @@ const AllPainting = ({ painting }) => {
                                 painting.userPhoto == null ? <img className='rounded-full' src="https://i.ibb.co.com/kcJNYB0/images.png" alt="" /> : <img className="rounded-full" src={painting.userPhoto} alt="" />
                             }
                         </div>
-                        <div className="-space-y-1">
+                        <div className={`-space-y-1 ${theme === "dark" ? "text-gray-50" : "text-black"}`}>
                             <h2 className="text-base font-semibold leading-none font-bree">{painting.userName}</h2>
-                            <span className="inline-block text-xs leading-none dark:text-gray-600">email: {
+                            <span className={`inline-block text-xs leading-none ${theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>email: {
                                 painting.email == null ? <span>Private email</span> : <span>{painting.email}</span>
                             }</span>
                         </div>
@@ -94,7 +108,7 @@ const AllPainting = ({ painting }) => {
                         </div>
                     </div>
                     <div className="space-y-3">
-                        <p className="text-sm">
+                        <p className={`text-sm ${theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>
                             {displayDescription.join(' ')}
                         </p>
                         <button className="btn hover:btm-nav-md hover:btn-link">See details</button>
