@@ -6,38 +6,39 @@ import { MdDeleteForever } from "react-icons/md";
 import Swal from "sweetalert2";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { CiEdit } from "react-icons/ci";
+import { Link } from "react-router-dom";
 
 const MyCommentCard = ({ myComment }) => {
 
     const { theme } = useContext(ThemeContext)
 
     const handelDeleteComment = _id => {
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    fetch(`http://localhost:5000/comments/${_id}`, {
-                        method: 'DELETE'
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`https://painting-and-rawing-server.vercel.app/comments/${_id}`, {
+                    method: 'DELETE'
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.deletedCount > 0) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            });
+                        }
                     })
-                        .then(res => res.json())
-                        .then(data => {
-                            if (data.deletedCount > 0) {
-                                Swal.fire({
-                                    title: "Deleted!",
-                                    text: "Your file has been deleted.",
-                                    icon: "success"
-                                });
-                            }
-                        })
-                }
-            });
-        }
+            }
+        });
+    }
 
     return (
         <div className={`relative w-full lg:p-3 md:p-2 p-1 rounded-md ${theme === 'dark' ? 'bg-gray-800 text-gray-200' : 'bg-gray-100 text-gray-700'}`}>
@@ -48,10 +49,12 @@ const MyCommentCard = ({ myComment }) => {
                         <MdDeleteForever className=" text-3xl  rounded-full"></MdDeleteForever>
                         <span className="font-semibold">Delete</span>
                     </div>
-                    <div className="flex hover:text-blue-500 hover:shadow-lg hover:shadow-blue-400 space-x-1 items-center cursor-pointer">
-                        <CiEdit className=" text-3xl rounded-full"></CiEdit>
-                        <span className="font-semibold">Edit</span>
-                    </div>
+                    <Link to={`/updateComment/${myComment._id}`}>
+                        <div className="flex hover:text-blue-500 hover:shadow-lg hover:shadow-blue-400 space-x-1 items-center cursor-pointer">
+                            <CiEdit className=" text-3xl rounded-full"></CiEdit>
+                            <span className="font-semibold">Edit</span>
+                        </div>
+                    </Link>
                 </ul>
             </div>
             <div className="">

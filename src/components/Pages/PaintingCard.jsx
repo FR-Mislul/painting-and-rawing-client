@@ -24,6 +24,7 @@ const PaintingCard = ({ painting }) => {
     }
 
     const displayDescription = painting.description.split(" ").slice(0, 30);
+    const displayPaintingName = painting.name.split(" ").splice(0, 4);
 
     const commentRef = useRef(null);
     const handleCommentScroll = () => {
@@ -41,7 +42,7 @@ const PaintingCard = ({ painting }) => {
         const newComment = { email, userName, userPhoto, paintingName, comment };
         console.log(newComment)
 
-        fetch('http://localhost:5000/comments', {
+        fetch('https://painting-and-rawing-server.vercel.app/comments', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -58,6 +59,7 @@ const PaintingCard = ({ painting }) => {
                         icon: 'success',
                         confirmButtonText: 'Okay'
                     })
+                    form.reset();
                     return;
                 }
             })
@@ -98,7 +100,7 @@ const PaintingCard = ({ painting }) => {
                 </div>
                 <div className=" pt-3 pb-2 border-y my-3">
                     <div className="flex items-center justify-between border-b-2 w-full py-2 mb-1">
-                        <p className="font-black lg:text-xl md:text-lg sm:text-base font-bree">Panting : <span className="font-bold lg:text-lg md:text-base sm: text-sm font-serif">{painting.name}</span></p>
+                        <p className="font-black lg:text-xl md:text-lg sm:text-base font-bree">Panting : <span className="font-bold lg:text-lg md:text-base sm: text-sm font-serif">{displayPaintingName.join(' ')}</span></p>
                         <div className="flex items-center lg:text-lg md:text-base sm:text-base space-x-1">
                             <FaStar className="text-yellow-500"></FaStar>
                             <span className="font-semibold font-cabin">{painting.rating}</span>
@@ -114,7 +116,7 @@ const PaintingCard = ({ painting }) => {
                     </p>
                     <button className="btn hover:btm-nav-md hover:btn-link">See details</button>
                     <form onSubmit={handleComment}>
-                        <input type="text" name="comment" ref={commentRef} placeholder="Add a comment..." className={`w-full py-0.5 dark:bg- border-none rounded text-sm pl-0 ${theme === "dark" ? 'text-gray-200' : 'text-gray-800'}`} />
+                        <input type="text" name="comment" ref={commentRef} placeholder="Add a comment..." className={`w-full py-0.5 dark:bg- border-none rounded text-sm px-3 ${theme === "dark" ? 'text-gray-200' : 'text-gray-800'}`} />
                     </form>
                 </div>
             </div>

@@ -10,6 +10,8 @@ import AddYourPainting from "../components/Pages/AddYourPainting";
 import PaintingGallery from "../components/Pages/PaintingGallery";
 import MyPaintingAndComment from "../components/Pages/MyPaintingAndComment";
 import MyComments from "../components/Pages/MyComments";
+import UpdatePainting from "../components/Pages/UpdatePainting";
+import UpdateComment from "../components/Pages/UpdateComment";
 
 
 const Router = createBrowserRouter([
@@ -21,7 +23,7 @@ const Router = createBrowserRouter([
       {
         path: '/',
         element: <Home></Home>,
-        loader: () => fetch('http://localhost:5000/paintings'),
+        loader: () => fetch('https://painting-and-rawing-server.vercel.app/paintings'),
       },
       {
         path: '/login',
@@ -38,7 +40,7 @@ const Router = createBrowserRouter([
       {
         path: '/paintingGallery',
         element: <PaintingGallery></PaintingGallery>,
-        loader: () => fetch('http://localhost:5000/paintings'),
+        loader: () => fetch('https://painting-and-rawing-server.vercel.app/paintings'),
       },
       {
         path: '/myPaintingAndComment',
@@ -47,14 +49,24 @@ const Router = createBrowserRouter([
           {
             index: true,
             element: <MyPainting></MyPainting>,
-            loader : () => fetch('http://localhost:5000/paintings')
+            loader : () => fetch('https://painting-and-rawing-server.vercel.app/paintings')
           },
           {
             path: 'comment',
             element: <MyComments></MyComments>,
-            loader: () => fetch('http://localhost:5000/comments')
+            loader: () => fetch('https://painting-and-rawing-server.vercel.app/comments')
           }
         ]
+      },
+      {
+        path: '/updatePainting/:id',
+        element: <UpdatePainting></UpdatePainting>,
+        loader: ({params}) => fetch(`https://painting-and-rawing-server.vercel.app/paintings/${params.id}`)
+      },
+      {
+        path: '/updateComment/:id',
+        element: <UpdateComment></UpdateComment>,
+        loader: ({params}) => fetch(`https://painting-and-rawing-server.vercel.app/comments/${params.id}`)
       }
     ]
   },

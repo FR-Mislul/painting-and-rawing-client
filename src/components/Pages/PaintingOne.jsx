@@ -24,6 +24,7 @@ const PaintingOne = ({ thePaint }) => {
         }
 
     const displayDescription = thePaint.description.split(" ").slice(0, 30);
+    const displayPaintingName = thePaint.name.split(" ").slice(0, 4);
 
     const commentRef = useRef(null);
     const handleCommentScroll = () => {
@@ -41,7 +42,7 @@ const PaintingOne = ({ thePaint }) => {
         const newComment = { email, userName, userPhoto, paintingName, comment };
         console.log(newComment)
 
-        fetch('http://localhost:5000/comments', {
+        fetch('https://painting-and-rawing-server.vercel.app/comments', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -58,6 +59,7 @@ const PaintingOne = ({ thePaint }) => {
                         icon: 'success',
                         confirmButtonText: 'Okay'
                     })
+                    form.reset();
                     return;
                 }
             })
@@ -86,7 +88,7 @@ const PaintingOne = ({ thePaint }) => {
                         <div className="lg:p-6 md:p-5 p-4 lg:-mt-16 space-y-2 lg:col-span-5 lg:block flex flex-col-reverse">
                             <div>
                                 <div className="lg:block flex justify-between items-center border-t border-b-2 py-3">
-                                    <h3 className="font-black lg:text-4xl md:text-2xl sm:text-base font-bree">Panting : <span className="font-bold lg:text-3xl md:text-xl sm: text-sm font-serif">{thePaint.name}</span></h3>
+                                    <h3 className="font-black lg:text-4xl md:text-2xl sm:text-base font-bree">Panting : <span className="font-bold lg:text-3xl md:text-xl sm: text-sm font-serif">{displayPaintingName.join(' ')}</span></h3>
                                     <div className="flex items-center lg:text-lg md:text-base sm:text-base space-x-1">
                                         <FaStar className="text-yellow-500"></FaStar>
                                         <span className="font-semibold font-cabin">{thePaint.rating}</span>
@@ -99,7 +101,7 @@ const PaintingOne = ({ thePaint }) => {
                                     </p>
                                     <button className="btn hover:btm-nav-md hover:btn-link">See details</button>
                                     <form onSubmit={handleComment}>
-                                        <input type="text" name="comment" ref={commentRef} placeholder="Add a comment..." className={`w-full py-0.5 dark:bg- border-none rounded text-sm pl-0 ${theme === "dark" ? 'text-gray-200' : 'text-gray-800'}`} />
+                                        <input type="text" name="comment" ref={commentRef} placeholder="Add a comment..." className={`w-full py-0.5 px-3 dark:bg- border-none rounded text-sm ${theme === "dark" ? 'text-gray-200' : 'text-gray-800'}`} />
                                     </form>
                                 </div>
 

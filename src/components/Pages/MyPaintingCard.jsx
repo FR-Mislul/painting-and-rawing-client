@@ -5,6 +5,7 @@ import { MdDeleteForever } from "react-icons/md";
 import Swal from "sweetalert2";
 import { CiEdit } from "react-icons/ci";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
+import { Link } from "react-router-dom";
 
 
 const MyPaintingCard = ({ myPainting }) => {
@@ -15,7 +16,7 @@ const MyPaintingCard = ({ myPainting }) => {
     useEffect(() => {
         const savedLike = localStorage.getItem(`like-${myPainting._id}`);
         if (savedLike) {
-            setIsLike(JSON.parse(savedLike)); // Convert string back to boolean
+            setIsLike(JSON.parse(savedLike)); 
         }
     }, [myPainting._id]);
 
@@ -25,7 +26,8 @@ const MyPaintingCard = ({ myPainting }) => {
         localStorage.setItem(`like-${myPainting._id}`, JSON.stringify(newLike));
     }
 
-    const displayDescription = myPainting.description.split(" ").slice(0, 30);
+    const displayDescription = myPainting?.description?.split(" ").slice(0, 30);
+    const displayPaintingName = myPainting?.name?.split(" ").slice(0, 4);
 
     const handelDeletePainting = _id => {
         Swal.fire({
@@ -38,7 +40,7 @@ const MyPaintingCard = ({ myPainting }) => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:5000/paintings/${_id}`, {
+                fetch(`https://painting-and-rawing-server.vercel.app/paintings/${_id}`, {
                     method: 'DELETE'
                 })
                     .then(res => res.json())
@@ -65,10 +67,12 @@ const MyPaintingCard = ({ myPainting }) => {
                             <MdDeleteForever className=" text-3xl  rounded-full"></MdDeleteForever>
                             <span className="font-semibold">Delete</span>
                         </div>
-                        <div className="flex hover:text-blue-500 hover:shadow-lg hover:shadow-blue-400 space-x-1 items-center cursor-pointer">
-                            <CiEdit className=" text-3xl rounded-full"></CiEdit>
-                            <span className="font-semibold">Edit</span>
-                        </div>
+                        <Link to={`/updatePainting/${myPainting._id}`}>
+                            <div className="flex hover:text-blue-500 hover:shadow-lg hover:shadow-blue-400 space-x-1 items-center cursor-pointer">
+                                <CiEdit className=" text-3xl rounded-full"></CiEdit>
+                                <span className="font-semibold">Edit</span>
+                            </div>
+                        </Link>
                     </ul>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -99,7 +103,7 @@ const MyPaintingCard = ({ myPainting }) => {
                 </div>
                 <div className=" pt-3 pb-2 border-y my-3">
                     <div className="flex items-center justify-between border-b-2 w-full py-2 mb-1">
-                        <p className="font-black lg:text-xl md:text-lg sm:text-base font-bree">Panting : <span className="font-bold lg:text-lg md:text-base sm: text-sm font-serif">{myPainting.name}</span></p>
+                        <p className="font-black lg:text-xl md:text-lg sm:text-base font-bree">Panting : <span className="font-bold lg:text-lg md:text-base sm: text-sm font-serif">{displayPaintingName.join(' ')}</span></p>
                         <div className="flex items-center lg:text-lg md:text-base sm:text-base space-x-1">
                             <FaStar className="text-yellow-500"></FaStar>
                             <span className="font-semibold font-cabin">{myPainting.rating}</span>

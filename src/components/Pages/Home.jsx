@@ -10,7 +10,7 @@ const Home = () => {
     const {loading} = useContext(AuthContext);
     const [thePaintings, setThePaintings] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:5000/paintings')
+        fetch('https://painting-and-rawing-server.vercel.app/paintings')
             .then(res => res.json())
             .then(data => setThePaintings(data))
     }, []);
@@ -22,10 +22,12 @@ const Home = () => {
 
     const [comments, setComments] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:5000/comments')
+        fetch('https://painting-and-rawing-server.vercel.app/comments')
             .then(res => res.json())
             .then(data => setComments(data))
     }, [])
+    const allComments = [...comments].reverse().slice(0, 20);
+
     if(loading) {
         return <div className="flex flex-col m-8 rounded shadow-md w-full mx-auto sm:w-80 animate-pulse h-96">
         <div className="h-48 rounded-t dark:bg-gray-300"></div>
@@ -60,7 +62,7 @@ const Home = () => {
 
             <div className='grid lg:grid-cols-2 gap-3 lg:max-w-7xl lg:w-full md:w-full w-11/12 mx-auto'>
                 {
-                    comments.map(comment => <CommentCard key={comment._id} comment={comment}></CommentCard>)
+                    allComments.map(comment => <CommentCard key={comment._id} comment={comment}></CommentCard>)
                 }
             </div>
         </div>
